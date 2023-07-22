@@ -13,12 +13,12 @@ const emailConfig = {
   }
 };
 
-// Middleware para processar o corpo das requisições POST
-app.use(bodyParser.json());
+// Middleware para processar o corpo das requisições POST como texto
+app.use(bodyParser.text());
 
 // Rota para receber os dados do Bling e enviar por e-mail
 app.post('/receber-dados-bling', (req, res) => {
-  const dadosDoBling = req.body;
+  const dadosDoBling = req.body; // Aqui, o req.body conterá a string enviada pelo Bling
 
   // Configurar o transporte de e-mail
   const transporter = nodemailer.createTransport({
@@ -31,7 +31,7 @@ app.post('/receber-dados-bling', (req, res) => {
     from: emailConfig.auth.user,
     to: 'lucasfagundesmaica@gmail.com', // Substitua pelo e-mail do destinatário
     subject: 'Dados Recebidos do Bling',
-    text: JSON.stringify(dadosDoBling)
+    text: dadosDoBling // Aqui, enviamos a string recebida diretamente no corpo do e-mail
   };
 
   // Enviar o e-mail
